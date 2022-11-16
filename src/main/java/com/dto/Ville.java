@@ -17,5 +17,5 @@ public class Ville {
 	private String codePostal;
 	private String libelleAcheminement;
 	private String ligne;
-	//private Coordonnee coordonnee;
+	private Coordonnee coordonnee;
 }

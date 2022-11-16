@@ -16,25 +16,36 @@ public class VilleBLOImpl implements VilleBLO {
 	
 	public ArrayList<Ville> getInfoVilles(String codePostal) {
 		ArrayList<Ville> listVille = new ArrayList<Ville>();
-		//ArrayList<Ville> listVille2 = new ArrayList<Ville>();
 		
-		listVille = villeDAO.findAllVilles();
-		
-//		for (int i = 0; i < listVille.size(); i++) {
-//			if (listVille.get(i).getCodePostal().equals(codePostal)) {
-//				System.out.println("ok code postal");
-//				listVille2.add(listVille.get(i));
-//			}
-//		}
+		if (codePostal == null) {
+			listVille = villeDAO.findAllVilles();
+		}else {
+			listVille = villeDAO.findAllVillesCodePostal(codePostal);			
+		}
 		
 		return listVille;
 	}
 	
-	public ArrayList<Ville> getInfoVillesCodePostal(String codePostal){
-		ArrayList<Ville> listVille = new ArrayList<Ville>();
-		
-		listVille = villeDAO.findAllVillesCodePostal(codePostal);
-		
-		return listVille;
+	public Ville findVillByCodeCommune(String codeCommune) {
+		Ville ville = villeDAO.findVillByCodeCommune(codeCommune);
+		if (ville.getCodeCommune() == null) {
+			return null;
+		} else {
+			return ville;
+		}
+	}
+	
+	public String postVilles(String codeCommune, String nomCommune, String codePostal, String libelleAcheminement,
+			String ligne, String latitude, String longitude) {
+		return villeDAO.postVilles(codeCommune, nomCommune, codePostal, libelleAcheminement, ligne, latitude, longitude);
+	}
+	
+	public String updateVilles(String codeCommune, String nomCommune, String codePostal, String libelleAcheminement,
+			String ligne, String latitude, String longitude) {
+		return villeDAO.updateVilles(codeCommune, nomCommune, codePostal, libelleAcheminement, ligne, latitude, longitude);
+	}
+	
+	public String deleteVilles(String codeCommune) {
+		return villeDAO.deleteVilles(codeCommune);
 	}
 }
