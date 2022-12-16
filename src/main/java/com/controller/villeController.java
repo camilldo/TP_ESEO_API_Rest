@@ -23,12 +23,20 @@ public class villeController {
 	@Autowired
 	VilleBLO villeBLOService;
 	
-	@GetMapping(value = "/ville")
+	@GetMapping(value = "/villes")
 	@ResponseBody
-	public ArrayList<Ville> get(@RequestParam(required = false, value="codePostal") String codePostal){
+	public ArrayList<Ville> getVilles(@RequestParam(required = false, value="codePostal") String codePostal){
 		System.out.println("get");
 		
 		return villeBLOService.getInfoVilles(codePostal);
+	}
+	
+	@GetMapping(value = "/ville")
+	@ResponseBody
+	public Ville getVille(@RequestParam(required = false, value="codeCommune") String codeCommune){
+		System.out.println("get");
+		
+		return villeBLOService.findVillByCodeCommune(codeCommune);
 	}
 	
 	@PostMapping(value = "/postVille")
@@ -63,7 +71,7 @@ public class villeController {
 		try {
 			Ville ville = villeBLOService.findVillByCodeCommune(codeCommune);
 			System.out.println(ville.getNomCommune());
-			return villeBLOService.updateVilles(codeCommune, nomCommune, codePostal, libelleAcheminement, ligne, latitude, longitude);
+			return villeBLOService.updateVilles(codeCommune, nomCommune.replace("_", " "), codePostal, libelleAcheminement.replace("_", " "), ligne.replace("_", " "), latitude, longitude);
 			
 		}catch(Exception e){
 			return villeBLOService.postVilles(codeCommune, nomCommune, codePostal, libelleAcheminement, ligne, latitude, longitude);

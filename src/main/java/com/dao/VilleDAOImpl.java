@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,13 +14,16 @@ import com.dto.Ville;
 
 @Repository
 public class VilleDAOImpl implements VilleDAO{
+	
+	private static final ResourceBundle DB_CONF = ResourceBundle.getBundle("db");
+	
 	public ArrayList<Ville> findAllVilles(){
 		System.out.println("findAllVilles");
 		
 		ArrayList<Ville> listVille = new ArrayList<>();
 		try{  
 			Class.forName("com.mysql.jdbc.Driver");  
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tp_maven","root","network");
+			Connection con=DriverManager.getConnection(DB_CONF.getString("DB_URL"),DB_CONF. getString("DB_USERNAME"), DB_CONF.getString("DB_PASSWORD"));
 			Statement stmt=con.createStatement();  
 			ResultSet rs=stmt.executeQuery("select * from ville_france");  
 			while(rs.next()) {
@@ -39,7 +43,7 @@ public class VilleDAOImpl implements VilleDAO{
 		ArrayList<Ville> listVille = new ArrayList<>();
 		try{  
 			Class.forName("com.mysql.jdbc.Driver");  
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tp_maven","root","network");
+			Connection con=DriverManager.getConnection(DB_CONF.getString("DB_URL"),DB_CONF. getString("DB_USERNAME"), DB_CONF.getString("DB_PASSWORD"));
 			Statement stmt=con.createStatement();  
 			ResultSet rs=stmt.executeQuery("select * from ville_france where Code_postal = " + codePostal);
 			while(rs.next()) {
@@ -54,10 +58,11 @@ public class VilleDAOImpl implements VilleDAO{
 	}
 	
 	public Ville findVillByCodeCommune(String codeCommune) {
+		System.out.println(codeCommune);
 		Ville ville = new Ville();
 		try{  
 			Class.forName("com.mysql.jdbc.Driver");  
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tp_maven","root","network");
+			Connection con=DriverManager.getConnection(DB_CONF.getString("DB_URL"),DB_CONF. getString("DB_USERNAME"), DB_CONF.getString("DB_PASSWORD"));
 			Statement stmt=con.createStatement();  
 			ResultSet rs=stmt.executeQuery("select * from ville_france where Code_commune_INSEE = " + codeCommune);
 			while(rs.next()) {
@@ -75,7 +80,7 @@ public class VilleDAOImpl implements VilleDAO{
 		System.out.println("postVille");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");  
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tp_maven","root","network");
+			Connection con=DriverManager.getConnection(DB_CONF.getString("DB_URL"),DB_CONF. getString("DB_USERNAME"), DB_CONF.getString("DB_PASSWORD"));
 			Statement stmt=con.createStatement();
 			
 			if (libelleAcheminement == null) libelleAcheminement = nomCommune;
@@ -100,7 +105,7 @@ public class VilleDAOImpl implements VilleDAO{
 		System.out.println("updateVille");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");  
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tp_maven","root","network");
+			Connection con=DriverManager.getConnection(DB_CONF.getString("DB_URL"),DB_CONF. getString("DB_USERNAME"), DB_CONF.getString("DB_PASSWORD"));
 			Statement stmt=con.createStatement();
 			String set = "Nom_commune = '" + nomCommune + "', Code_postal = '" + codePostal + "'";
 			if (libelleAcheminement != null) set += ", Libelle_acheminement = '" + libelleAcheminement + "'";
@@ -123,7 +128,7 @@ public class VilleDAOImpl implements VilleDAO{
 		System.out.println("deleteVille");
 		try {
 			Class.forName("com.mysql.jdbc.Driver");  
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tp_maven","root","network");
+			Connection con=DriverManager.getConnection(DB_CONF.getString("DB_URL"),DB_CONF. getString("DB_USERNAME"), DB_CONF.getString("DB_PASSWORD"));
 			Statement stmt=con.createStatement();
 			
 			String query = "delete from ville_france where Code_commune_INSEE = " + codeCommune;
